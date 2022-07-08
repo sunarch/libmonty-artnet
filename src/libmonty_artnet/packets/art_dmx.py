@@ -5,11 +5,89 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from argparse import Namespace
+import time
+
 from libmonty_artnet.packets.base import ArtNetBasePacket
+from libmonty_artnet.protocol import constants
 from libmonty_artnet.protocol.op_codes import OpOutput
+from libmonty_artnet.utils import common_args, grid, network
 
 
 class ArtDmxPacket(ArtNetBasePacket):
+
+    subcommand = 'dmx'
+
+    @classmethod
+    def create_subparser(cls, add_to_subparsers) -> None:
+        parser = add_to_subparsers.add_parser(
+            cls.subcommand,
+            help='ArtDmx'
+        )
+
+        common_args.ip_address(parser)
+        common_args.ip_port(parser, default=constants.DEFAULT_IP_PORT)
+        common_args.repeat(parser)
+
+        parser.add_argument(
+            '--universe',
+            help='Universe',
+            type=int, default=0,
+            dest='universe'
+        )
+
+        dmx_source = parser.add_mutually_exclusive_group(required=True)
+
+        dmx_source.add_argument(
+            '--data',
+            help='Data values',
+            type=int, nargs='+',
+            default=None,
+            dest='data'
+        )
+
+        dmx_source.add_argument(
+            '--file',
+            help='Data values from file',
+            default=None,
+            dest='data_file'
+        )
+
+    @staticmethod
+    def process_args(args: Namespace) -> None:
+
+        data = ['\0']
+        if args.data is not None:
+            data = args.data
+        if args.data_file is not None:
+            with open(args.data_file, 'r', encoding='UTF-8') as data_file:
+                data = []
+                for line in data_file:
+                    for item in line.split():
+                        item = item.replace('-', '') \
+                            .replace('|', '') \
+                            .replace(' ', '')
+                        if item == '':
+                            continue
+                        data.append(int(item.strip()))
+
+        chunk_size = 512 - (512 % 3)
+        chunked_data = grid.chunk_list(data, chunk_size=chunk_size)
+
+        while True:
+            try:
+                time.sleep(network.DEFAULT_REPEAT_WAIT_SECS)
+
+                for index, data_list in enumerate(chunked_data):
+                    universe = args.universe + index
+                    packet = ArtDmxPacket(data_list, universe=universe)
+
+                    network.udp_send(args.ip, args.port, packet.compose())
+
+                if not args.repeat:
+                    break
+            except KeyboardInterrupt:
+                break
 
     def __init__(self,
                  data: list[int],
@@ -66,7 +144,7 @@ class ArtDmxPacket(ArtNetBasePacket):
     def field_11_data(self) -> bytes:
         return bytes(self._data)
 
-    def compose(self):
+    def compose(self) -> bytes:
         return \
             self.field_1_id + \
             self.field_2_op_code + \

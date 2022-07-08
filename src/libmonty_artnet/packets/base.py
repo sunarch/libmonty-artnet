@@ -6,9 +6,20 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from abc import ABC
+from argparse import Namespace
 
 
 class ArtNetBasePacket(ABC):
+
+    subcommand = None
+
+    @classmethod
+    def create_subparser(cls, add_to_subparsers) -> None:
+        raise NotImplementedError
+
+    @staticmethod
+    def process_args(args: Namespace) -> None:
+        raise NotImplementedError
 
     @property
     def id(self) -> str:

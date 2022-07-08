@@ -5,12 +5,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from argparse import Namespace
 from enum import Enum
 
 from libmonty_artnet.packets.base import ArtNetBasePacket
 from libmonty_artnet.protocol import constants
 from libmonty_artnet.protocol.op_codes import OpPoll
 from libmonty_artnet.protocol.diag_priority_codes import DiagPriorityCode
+from libmonty_artnet.utils import common_args, network
 
 
 class DiagnosticsMethod(Enum):
@@ -19,6 +21,23 @@ class DiagnosticsMethod(Enum):
 
 
 class ArtPollPacket(ArtNetBasePacket):
+
+    subcommand = 'poll'
+
+    @classmethod
+    def create_subparser(cls, add_to_subparsers) -> None:
+        parser = add_to_subparsers.add_parser(
+            cls.subcommand,
+            help='ArtPoll'
+        )
+
+        common_args.ip_address(parser)
+        common_args.ip_port(parser, default=constants.DEFAULT_IP_PORT)
+
+    @staticmethod
+    def process_args(args: Namespace) -> None:
+        packet = ArtPollPacket()
+        network.udp_send(args.ip, args.port, packet.compose())
 
     def __init__(self,
                  targeted_mode: bool = False,
@@ -212,7 +231,7 @@ class ArtPollPacket(ArtNetBasePacket):
     def field_10_target_port_address_bottom_lo(self) -> bytes:
         return bytes([self._target_port_bottom.to_bytes(2, byteorder='big')[1]])
 
-    def compose(self):
+    def compose(self) -> bytes:
         return \
             self.field_1_id + \
             self.field_2_op_code + \

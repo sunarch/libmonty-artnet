@@ -9,6 +9,10 @@ import logging
 import socket
 
 
+UNIVERSAL_BROADCAST_IP_ADDRESS = '255.255.255.255'
+DEFAULT_REPEAT_WAIT_SECS = 0.5
+
+
 def udp_send(ip_address: str,
              port: int,
              payload: bytes,

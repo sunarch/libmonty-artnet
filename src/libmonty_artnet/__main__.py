@@ -14,6 +14,7 @@ import pkg_resources
 
 # imports: project
 from libmonty_artnet import version
+from libmonty_artnet.packets.base import ArtNetBasePacket
 
 
 def main() -> None:
@@ -40,10 +41,26 @@ def main() -> None:
                         action='store_const', const=True, default=False,
                         dest='version')
 
+    subparsers = parser.add_subparsers(dest='cmd')
+
+    for subclass in ArtNetBasePacket.__subclasses__():
+        subclass.create_subparser(add_to_subparsers=subparsers)
+
     args = parser.parse_args()
 
     if args.version:
         print(f'{version.program_name} {version.__version__}')
+        return
+
+    subcommands = {subclass.subcommand: subclass.process_args
+                   for subclass
+                   in ArtNetBasePacket.__subclasses__()}
+
+    if args.cmd in subcommands:
+        try:
+            subcommands[args.cmd](args)
+        except NotImplementedError:
+            logging.error('Method not implemented.')
         return
 
 
