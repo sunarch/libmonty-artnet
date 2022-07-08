@@ -9,4 +9,36 @@ from abc import ABC
 
 
 class ArtNetBasePacket(ABC):
-    pass
+
+    @property
+    def id(self) -> str:
+        return 'Art-Net\0'
+
+    @property
+    def field_1_id(self) -> bytes:
+        return bytes(self.id, encoding='ASCII')
+
+    @property
+    def op_code(self) -> int:
+        raise NotImplementedError
+
+    @property
+    def field_2_op_code(self) -> bytes:
+        return self.op_code.to_bytes(2, byteorder='little')
+
+    @property
+    def protocol_version(self) -> int:
+        return 14
+
+    @property
+    def field_3_prot_ver_hi(self) -> bytes:
+        """Not present in all packet types"""
+        return bytes([self.protocol_version.to_bytes(2, byteorder='big')[0]])
+
+    @property
+    def field_4_prot_ver_lo(self) -> bytes:
+        """Not present in all packet types"""
+        return bytes([self.protocol_version.to_bytes(2, byteorder='big')[1]])
+
+    def compose(self) -> bytes:
+        raise NotImplementedError
