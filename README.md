@@ -3,9 +3,17 @@ libmonty - Art-Net
 
 Art-Net packages
 
+### Installation
+
+Available on PyPI: [libmonty-artnet](https://pypi.org/project/libmonty-artnet/)
+
+```commandline
+pip install libmonty-artnet
+```
+
 ### Credits
 
-Art-Net™ Designed by and Copyright Artistic Licence
+- Art-Net™ Designed by and Copyright Artistic Licence
 
 ### License
 
