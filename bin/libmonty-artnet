@@ -5,5 +5,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import libmonty_artnet
-libmonty_artnet.main()
+import libmonty_artnet.__main__
+
+libmonty_artnet.__main__.main()
