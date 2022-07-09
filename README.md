@@ -14,6 +14,8 @@ pip install libmonty-artnet
 ### Credits
 
 - Art-Net™ Designed by and Copyright Artistic Licence
+- Thanks to `bethlenke` at [HSBP](https://hsbp.org) for bringing my
+  attention to the protocol and providing the LED grids for testing
 
 ### License
 
