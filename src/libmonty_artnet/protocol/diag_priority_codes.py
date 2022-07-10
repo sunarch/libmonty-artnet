@@ -23,6 +23,9 @@ from enum import Enum
 
 class DiagPriorityCode(Enum):
 
+    # NOT IN SPECIFICATION: All messages.
+    DpAll = 0x00
+
     # Low priority message.
     DpLow = 0x10
 
