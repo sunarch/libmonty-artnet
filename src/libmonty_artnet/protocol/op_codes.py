@@ -125,7 +125,7 @@ OpMediaControl = 0x9200
 
 # This is an ArtMediaControlReply packet.
 # It is Unicast by a Media Server and acted upon by a Controller.
-OpMediaContrlReply = 0x9300
+OpMediaControlReply = 0x9300
 
 # This is an ArtTimeCode packet.
 # It is used to transport time code over the network.
