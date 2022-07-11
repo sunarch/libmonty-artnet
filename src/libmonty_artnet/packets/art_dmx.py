@@ -9,6 +9,8 @@ from argparse import Namespace
 import logging
 import time
 
+import webcolors
+
 from libmonty_artnet.packets.base import ArtNetBasePacket
 from libmonty_artnet.protocol import constants
 from libmonty_artnet.protocol.op_codes import OpOutput
@@ -76,6 +78,13 @@ class ArtDmxPacket(ArtNetBasePacket):
                         else:
                             logging.warning('Invalid display value %s', item)
                     else:
+                        try:
+                            red, green, blue = webcolors.name_to_rgb(item.strip())
+                            data.extend([red, green, blue])
+                            continue
+                        except ValueError:
+                            pass
+
                         try:
                             data.append(int(item.strip()))
                         except ValueError:
