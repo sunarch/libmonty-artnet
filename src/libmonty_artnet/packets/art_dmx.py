@@ -70,6 +70,13 @@ class ArtDmxPacket(ArtNetBasePacket):
             dest='grid_height'
         )
 
+        parser.add_argument(
+            '--diagonal',
+            help='Rotate display matrix 45 degrees',
+            action='store_true',
+            dest='diagonal'
+        )
+
     @staticmethod
     def read_display_file(filename: str,
                           grid_width: int = None,
@@ -137,8 +144,7 @@ class ArtDmxPacket(ArtNetBasePacket):
                                          grid_width=args.grid_width,
                                          grid_height=args.grid_height)
 
-        chunk_size = 512 - (512 % 3)
-        chunked_data = grid.chunk_list(data, chunk_size=chunk_size)
+        chunked_data = grid.chunk_list(data, chunk_size=constants.RGB_UNITS_PER_UNIVERSE)
 
         while True:
             try:
