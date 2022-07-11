@@ -56,18 +56,53 @@ class ArtDmxPacket(ArtNetBasePacket):
             dest='data_file'
         )
 
+        parser.add_argument(
+            '--grid-width',
+            help='Width of target grid',
+            type=int, default=None,
+            dest='grid_width'
+        )
+
+        parser.add_argument(
+            '--grid-height',
+            help='Height of target grid',
+            type=int, default=None,
+            dest='grid_height'
+        )
+
     @staticmethod
-    def read_display_file(filename: str) -> list[int]:
+    def read_display_file(filename: str,
+                          grid_width: int = None,
+                          grid_height: int = None
+                          ) -> list[int]:
         data = []
         with open(filename, 'r', encoding='UTF-8') as data_file:
+            line_no = 0
+
             for line in data_file:
-                for item in line.split():
-                    item = item.replace('-', '') \
-                        .replace('|', '') \
-                        .replace(' ', '')
-                    if item == '':
-                        continue
-                    elif item[0:1] == '#':
+                items_in_line = list(
+                    map(lambda x: x.replace('-', '')
+                                   .replace('|', '')
+                                   .replace(' ', ''),
+                        line.split())
+                )
+                while '' in items_in_line:
+                    items_in_line.remove('')
+
+                if len(items_in_line) == 0:
+                    continue
+
+                line_no += 1
+                if grid_height is not None and line_no + 1 > grid_height:
+                    logging.warning('More lines in display file than in target grid %i > %i',
+                                    line_no, grid_height)
+                    continue
+
+                if grid_width is not None and len(items_in_line) < grid_width:
+                    items_in_line.extend(['#000'] * (grid_width - len(items_in_line)))
+
+                for item in items_in_line:
+                    if item[0:1] == '#':
                         hex_val = item[1:]
                         if len(hex_val) == 3:
                             for nibble in hex_val:
@@ -98,7 +133,9 @@ class ArtDmxPacket(ArtNetBasePacket):
         if args.data is not None:
             data = args.data
         if args.data_file is not None:
-            data = cls.read_display_file(args.data_file)
+            data = cls.read_display_file(args.data_file,
+                                         grid_width=args.grid_width,
+                                         grid_height=args.grid_height)
 
         chunk_size = 512 - (512 % 3)
         chunked_data = grid.chunk_list(data, chunk_size=chunk_size)
