@@ -31,10 +31,10 @@ def main() -> None:
     logger_config_parser.read_string(logger_config_str)
     logging.config.fileConfig(logger_config_parser)
 
-    logging.info(version.program_name)
-    logging.info('-' * len(version.program_name))
+    logging.info(version.PROGRAM_NAME)
+    logging.info('-' * len(version.PROGRAM_NAME))
 
-    parser = ArgumentParser(prog=version.program_name)
+    parser = ArgumentParser(prog=version.PROGRAM_NAME)
 
     parser.add_argument('--version',
                         help='Display version',
@@ -49,7 +49,7 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.version:
-        print(f'{version.program_name} {version.__version__}')
+        print(f'{version.PROGRAM_NAME} {version.__version__}')
         return
 
     subcommands = {subclass.subcommand: subclass.process_args
