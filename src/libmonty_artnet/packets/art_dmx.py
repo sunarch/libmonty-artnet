@@ -6,6 +6,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from argparse import Namespace
+import logging
 import time
 
 from libmonty_artnet.packets.base import ArtNetBasePacket
@@ -54,22 +55,41 @@ class ArtDmxPacket(ArtNetBasePacket):
         )
 
     @staticmethod
-    def process_args(args: Namespace) -> None:
+    def read_display_file(filename: str) -> list[int]:
+        data = []
+        with open(filename, 'r', encoding='UTF-8') as data_file:
+            for line in data_file:
+                for item in line.split():
+                    item = item.replace('-', '') \
+                        .replace('|', '') \
+                        .replace(' ', '')
+                    if item == '':
+                        continue
+                    elif item[0:1] == '#':
+                        hex_val = item[1:]
+                        if len(hex_val) == 3:
+                            for nibble in hex_val:
+                                data.append(int(nibble * 2, 16))
+                        elif len(hex_val) == 6:
+                            for byte in [hex_val[i*2:(i*2)+2] for i in range(3)]:
+                                data.append(int(byte, 16))
+                        else:
+                            logging.warning('Invalid display value %s', item)
+                    else:
+                        try:
+                            data.append(int(item.strip()))
+                        except ValueError:
+                            logging.warning('Invalid display value %s', item)
+        return data
 
-        data = ['\0']
+    @classmethod
+    def process_args(cls, args: Namespace) -> None:
+
+        data = [0]
         if args.data is not None:
             data = args.data
         if args.data_file is not None:
-            with open(args.data_file, 'r', encoding='UTF-8') as data_file:
-                data = []
-                for line in data_file:
-                    for item in line.split():
-                        item = item.replace('-', '') \
-                            .replace('|', '') \
-                            .replace(' ', '')
-                        if item == '':
-                            continue
-                        data.append(int(item.strip()))
+            data = cls.read_display_file(args.data_file)
 
         chunk_size = 512 - (512 % 3)
         chunked_data = grid.chunk_list(data, chunk_size=chunk_size)
