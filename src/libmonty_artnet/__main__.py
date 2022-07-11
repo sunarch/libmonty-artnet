@@ -14,6 +14,7 @@ import pkg_resources
 
 # imports: project
 from libmonty_artnet import version
+from libmonty_artnet.controller import controller
 from libmonty_artnet.packets.base import ArtNetBasePacket
 
 
@@ -62,6 +63,8 @@ def main() -> None:
         except NotImplementedError:
             logging.error('Method not implemented.')
         return
+
+    controller.run()
 
 
 if __name__ == '__main__':
