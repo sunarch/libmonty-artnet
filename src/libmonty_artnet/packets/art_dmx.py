@@ -159,6 +159,11 @@ class ArtDmxPacket(ArtNetBasePacket):
                                          grid_width=args.grid_width,
                                          grid_height=args.grid_height)
 
+        if args.diagonal:
+            data = grid.rotate_to_diagonal(data,
+                                           grid_width=args.grid_width,
+                                           grid_height=args.grid_height)
+
         chunked_data = grid.chunk_list(data, chunk_size=constants.RGB_UNITS_PER_UNIVERSE)
 
         network_iterator = None
