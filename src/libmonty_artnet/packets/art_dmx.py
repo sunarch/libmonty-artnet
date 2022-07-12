@@ -86,7 +86,15 @@ class ArtDmxPacket(ArtNetBasePacket):
         with open(filename, 'r', encoding='UTF-8') as data_file:
             line_no = 0
 
-            for line in data_file:
+            while True:
+                try:
+                    line = next(data_file)
+                except StopIteration:
+                    if grid_height is not None and line_no <= grid_height:
+                        line = "#000"
+                    else:
+                        break
+
                 items_in_line = list(
                     map(lambda x: x.replace('-', '')
                                    .replace('|', '')
@@ -100,7 +108,7 @@ class ArtDmxPacket(ArtNetBasePacket):
                     continue
 
                 line_no += 1
-                if grid_height is not None and line_no + 1 > grid_height:
+                if grid_height is not None and line_no > grid_height:
                     logging.warning('More lines in display file than in target grid %i > %i',
                                     line_no, grid_height)
                     continue
