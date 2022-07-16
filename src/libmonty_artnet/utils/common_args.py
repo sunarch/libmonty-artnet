@@ -35,3 +35,12 @@ def repeat(to_parser: ArgumentParser):
         action='store_true',
         dest='repeat'
     )
+
+
+def use_experimental(to_parser: ArgumentParser):
+    to_parser.add_argument(
+        '--use-experimental',
+        help='Override safety check to disable the use of unfinished features',
+        action='store_true',
+        dest='use_experimental'
+    )

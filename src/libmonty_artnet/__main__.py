@@ -47,6 +47,8 @@ def main() -> None:
     for subclass in ArtNetBasePacket.__subclasses__():
         subclass.create_subparser(add_to_subparsers=subparsers)
 
+    controller.create_subparser(add_to_subparsers=subparsers)
+
     args = parser.parse_args()
 
     if args.version:
@@ -57,6 +59,8 @@ def main() -> None:
                    for subclass
                    in ArtNetBasePacket.__subclasses__()}
 
+    subcommands[controller.SUBCOMMAND] = controller.process_args
+
     if args.cmd in subcommands:
         try:
             subcommands[args.cmd](args)
@@ -64,7 +68,8 @@ def main() -> None:
             logging.error('Method not implemented.')
         return
 
-    controller.run()
+    logging.warning('No subcommand selected.')
+    logging.warning('Exiting.')
 
 
 if __name__ == '__main__':
