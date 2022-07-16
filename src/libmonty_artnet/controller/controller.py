@@ -82,7 +82,7 @@ def run():
 
 def terminal_enter_key_callback(root, terminal_listbox, input_field, parser: ArgumentParser):
     terminal_text = input_field.get()
-    # TODO: clear
+    input_field.delete(0, tk.END)
 
     terminal_listbox.insert(tk.END, f'$ {terminal_text}')
     terminal_listbox.yview_moveto(1)  # scrolls the listbox down to the very last.
