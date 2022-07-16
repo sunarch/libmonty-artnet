@@ -4,13 +4,38 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 import argparse
 from argparse import ArgumentParser
+import logging
 from multiprocessing import Process, Pipe, Value
 import tkinter as tk
 from tkinter import ttk
 
-from libmonty_artnet.utils import network
+from libmonty_artnet.utils import common_args, network
+
+
+SUBCOMMAND = 'controller'
+
+
+def create_subparser(add_to_subparsers) -> None:
+    parser = add_to_subparsers.add_parser(
+        SUBCOMMAND,
+        help='Controller'
+    )
+
+    common_args.use_experimental(parser)
+
+
+def process_args(args: argparse.Namespace) -> None:
+
+    if not args.use_experimental:
+        logging.error('Experimental feature, its use is disabled by default.')
+        logging.error('If you wish to proceed regardless, see --help for the CLI option.')
+        logging.error('Exiting.')
+        return
+
+    run()
 
 
 def _create_cli_parser() -> ArgumentParser:
