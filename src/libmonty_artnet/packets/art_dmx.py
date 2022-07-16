@@ -56,6 +56,13 @@ class ArtDmxPacket(ArtNetBasePacket):
             dest='data_file'
         )
 
+        dmx_source.add_argument(
+            '--from-network',
+            help='Data values from the network',
+            action='store_true',
+            dest='data_from_network'
+        )
+
         parser.add_argument(
             '--grid-width',
             help='Width of target grid',
@@ -154,9 +161,17 @@ class ArtDmxPacket(ArtNetBasePacket):
 
         chunked_data = grid.chunk_list(data, chunk_size=constants.RGB_UNITS_PER_UNIVERSE)
 
+        network_iterator = None
+        if args.data_from_network:
+            network_iterator = network.tcp_receive()
+
         while True:
             try:
                 time.sleep(network.DEFAULT_REPEAT_WAIT_SECS)
+
+                if network_iterator is not None:
+                    data = next(network_iterator)
+                    chunked_data = grid.chunk_list(data, chunk_size=constants.RGB_UNITS_PER_UNIVERSE)
 
                 for index, data_list in enumerate(chunked_data):
                     universe = args.universe + index
