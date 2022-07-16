@@ -7,6 +7,7 @@
 
 import logging
 import socket
+from typing import Generator
 
 
 UNIVERSAL_BROADCAST_IP_ADDRESS = '255.255.255.255'
@@ -22,7 +23,7 @@ def udp_send(ip_address: str,
     logging.info('Sending to IP "%s" PORT "%s"', ip_address, port)
     logging.info('|-> Payload size: %s', len(payload))
 
-    sock = socket.socket(socket.AF_INET,  # internet
+    sock = socket.socket(socket.AF_INET,  # IPv4
                          socket.SOCK_DGRAM)  # UDP
 
     if enable_broadcast:
@@ -52,3 +53,36 @@ def udp_receive(sock: socket.socket,
     logging.info('Received %s bytes from %s', len(data), addr)
 
     return data, addr
+
+
+def tcp_receive(ip_address: str = '127.0.0.1',
+                port: int = 9000
+                ) -> Generator:
+
+    with socket.socket(
+        socket.AF_INET,  # IPv4
+        socket.SOCK_STREAM  # TCP
+    ) as tcp_socket:
+
+        tcp_socket.bind((ip_address, port))
+        tcp_socket.listen(1)
+
+        while True:
+            logging.info('Waiting for connection')
+            connection, client = tcp_socket.accept()
+
+            try:
+                logging.info('Connected to client IP:', client)
+
+                while True:
+                    data = connection.recv(1024)
+
+                    logging.info('Received data.')
+
+                    if data == b'\x00':
+                        break
+
+                    yield [int(byte) for byte in data]
+
+            finally:
+                connection.close()
