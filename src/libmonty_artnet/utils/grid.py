@@ -44,12 +44,13 @@ def rotate_to_diagonal(source: list,
     grid = np.array(grouped_source).reshape(grid_width, grid_height)
     print('Grid:', grid)
 
-    '''
-    diagonal_square_side = round(
-        math.sqrt((grid_width ** 2) / 2) +
-        math.sqrt((grid_height ** 2) / 2)
-    )
-    '''
+    outer_square_side_part_1 = math.sqrt((grid_width ** 2) / 2)
+    print('outer_square_side_part_1:', outer_square_side_part_1)
+    outer_square_side_part_2 = math.sqrt((grid_height ** 2) / 2)
+    print('outer_square_side_part_2:', outer_square_side_part_2)
+
+    diagonal_square_side = round(outer_square_side_part_1 + outer_square_side_part_2)
+    print('diagonal_square_side:', diagonal_square_side)
 
     print('Grid to list:', grid.tolist())
     flattened = []
