@@ -7,18 +7,18 @@
 
 from argparse import Namespace
 
-from libmonty_artnet.packets.base import ArtNetBasePacket
+from startnet.packets.base import ArtNetBasePacket
 
 
-class ArtInputPacket(ArtNetBasePacket):
+class ArtVlcPacket(ArtNetBasePacket):
 
-    subcommand = 'input'
+    subcommand = 'vlc'
 
     @classmethod
     def create_subparser(cls, add_to_subparsers) -> None:
         parser = add_to_subparsers.add_parser(
             cls.subcommand,
-            help='ArtInput'
+            help='ArtVlc'
         )
 
     @staticmethod

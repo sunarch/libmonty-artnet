@@ -1,14 +1,14 @@
-libmonty - Art-Net
-==================
+stArtNet - an Art-Net implementation
+====================================
 
 Art-Net packages
 
 ### Installation
 
-Available on PyPI: [libmonty-artnet](https://pypi.org/project/libmonty-artnet/)
+Available on PyPI: [libmonty-artnet](https://pypi.org/project/startnet/)
 
 ```commandline
-pip install libmonty-artnet
+pip install startnet
 ```
 
 ### Credits

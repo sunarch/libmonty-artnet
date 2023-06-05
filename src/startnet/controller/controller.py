@@ -12,7 +12,7 @@ from multiprocessing import Process, Pipe, Value
 import tkinter as tk
 from tkinter import ttk
 
-from libmonty_artnet.utils import common_args, network
+from startnet.utils import common_args, network
 
 
 SUBCOMMAND = 'controller'

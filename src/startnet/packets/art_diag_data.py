@@ -7,7 +7,7 @@
 
 from argparse import Namespace
 
-from libmonty_artnet.packets.base import ArtNetBasePacket
+from startnet.packets.base import ArtNetBasePacket
 
 
 class ArtDiagDataPacket(ArtNetBasePacket):

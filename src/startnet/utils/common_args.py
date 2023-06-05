@@ -7,7 +7,7 @@
 
 from argparse import ArgumentParser
 
-from libmonty_artnet.utils.network import UNIVERSAL_BROADCAST_IP_ADDRESS
+from startnet.utils.network import UNIVERSAL_BROADCAST_IP_ADDRESS
 
 
 def ip_address(to_parser: ArgumentParser):

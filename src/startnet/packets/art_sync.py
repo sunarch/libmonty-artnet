@@ -8,10 +8,10 @@
 from argparse import Namespace
 import time
 
-from libmonty_artnet.packets.base import ArtNetBasePacket
-from libmonty_artnet.protocol import constants
-from libmonty_artnet.protocol.op_codes import OpSync
-from libmonty_artnet.utils import common_args, network
+from startnet.packets.base import ArtNetBasePacket
+from startnet.protocol import constants
+from startnet.protocol.op_codes import OpSync
+from startnet.utils import common_args, network
 
 
 class ArtSyncPacket(ArtNetBasePacket):

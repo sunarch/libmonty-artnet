@@ -13,9 +13,9 @@ import logging.config
 import pkg_resources
 
 # imports: project
-from libmonty_artnet import version
-from libmonty_artnet.controller import controller
-from libmonty_artnet.packets.base import ArtNetBasePacket
+from startnet import version
+from startnet.controller import controller
+from startnet.packets.base import ArtNetBasePacket
 
 
 def main() -> None:

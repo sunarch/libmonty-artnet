@@ -11,10 +11,10 @@ import time
 
 import webcolors
 
-from libmonty_artnet.packets.base import ArtNetBasePacket
-from libmonty_artnet.protocol import constants
-from libmonty_artnet.protocol.op_codes import OpOutput
-from libmonty_artnet.utils import common_args, grid, network
+from startnet.packets.base import ArtNetBasePacket
+from startnet.protocol import constants
+from startnet.protocol.op_codes import OpOutput
+from startnet.utils import common_args, grid, network
 
 
 class ArtDmxPacket(ArtNetBasePacket):
