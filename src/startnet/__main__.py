@@ -7,30 +7,20 @@
 
 # imports: library
 from argparse import ArgumentParser
-import configparser
 import logging
 import logging.config
-import pkg_resources
 
 # imports: project
 from startnet import version
 from startnet.controller import controller
 from startnet.packets.base import ArtNetBasePacket
+import startnet.config.logging as logging_config
+import startnet.config.app as app_config
 
 
 def main() -> None:
 
-    logger_config_name = 'data/logger.ini'
-
-    if not pkg_resources.resource_exists(__name__, logger_config_name):
-        logging.error('logger config does not exist')
-        return
-
-    logger_config = pkg_resources.resource_stream(__name__, logger_config_name)
-    logger_config_str = logger_config.read().decode('UTF-8')
-    logger_config_parser = configparser.ConfigParser()
-    logger_config_parser.read_string(logger_config_str)
-    logging.config.fileConfig(logger_config_parser)
+    logging.config.dictConfig(logging_config.default)
 
     logging.info(version.PROGRAM_NAME)
     logging.info('-' * len(version.PROGRAM_NAME))
@@ -50,6 +40,8 @@ def main() -> None:
     controller.create_subparser(add_to_subparsers=subparsers)
 
     args = parser.parse_args()
+
+    app_config.check_config_file()
 
     if args.version:
         print(f'{version.PROGRAM_NAME} {version.__version__}')
