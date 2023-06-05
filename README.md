@@ -13,7 +13,8 @@ pip install startnet
 
 ### Credits
 
-- Art-Net™ Designed by and Copyright Artistic Licence
+- [Art-Net™](https://artisticlicence.com/support-and-resources/art-net-4/)
+  Designed by and Copyright [Artistic Licence](https://artisticlicence.com/)
 - Thanks to `bethlenke` at [HSBP](https://hsbp.org) for bringing my
   attention to the protocol and providing the LED grids for testing
 
