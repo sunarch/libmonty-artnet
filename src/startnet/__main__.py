@@ -29,7 +29,7 @@ def main() -> None:
 
     parser.add_argument('--version',
                         help='Display version',
-                        action='store_const', const=True, default=False,
+                        action='store_true',
                         dest='version')
 
     subparsers = parser.add_subparsers(dest='cmd')
