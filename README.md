@@ -5,7 +5,7 @@ Art-Net packages
 
 ### Installation
 
-Available on PyPI: [libmonty-artnet](https://pypi.org/project/startnet/)
+Available on PyPI: [startnet](https://pypi.org/project/startnet/)
 
 ```commandline
 pip install startnet
