@@ -1,2 +1,2 @@
+libmonty-logging == 0.1.1
 webcolors~=1.12
-xdg-base-dirs == 6.0.0
