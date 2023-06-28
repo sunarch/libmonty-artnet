@@ -13,7 +13,7 @@ import webcolors
 
 from libmonty_artnet.packets.base import ArtNetBasePacket
 from libmonty_artnet.protocol import constants
-from libmonty_artnet.protocol.op_codes import OpOutput
+from libmonty_artnet.protocol.op_codes import OP_OUTPUT
 from libmonty_artnet.utils import common_args, grid, network
 
 
@@ -205,7 +205,7 @@ class ArtDmxPacket(ArtNetBasePacket):
 
     @property
     def op_code(self) -> int:
-        return OpOutput
+        return OP_OUTPUT
 
     @property
     def field_5_sequence(self) -> bytes:

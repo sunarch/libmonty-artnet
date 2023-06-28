@@ -10,7 +10,7 @@ from enum import Enum
 
 from libmonty_artnet.packets.base import ArtNetBasePacket
 from libmonty_artnet.protocol import constants
-from libmonty_artnet.protocol.op_codes import OpPoll
+from libmonty_artnet.protocol.op_codes import OP_POLL
 from libmonty_artnet.protocol.diag_priority_codes import DiagPriorityCode
 from libmonty_artnet.utils import common_args, network
 
@@ -67,7 +67,7 @@ class ArtPollPacket(ArtNetBasePacket):
 
     @property
     def op_code(self) -> int:
-        return OpPoll
+        return OP_POLL
 
     @property
     def targeted_mode(self) -> bool:

@@ -10,7 +10,7 @@ import time
 
 from libmonty_artnet.packets.base import ArtNetBasePacket
 from libmonty_artnet.protocol import constants
-from libmonty_artnet.protocol.op_codes import OpSync
+from libmonty_artnet.protocol.op_codes import OP_SYNC
 from libmonty_artnet.utils import common_args, network
 
 
@@ -46,7 +46,7 @@ class ArtSyncPacket(ArtNetBasePacket):
 
     @property
     def op_code(self) -> int:
-        return OpSync
+        return OP_SYNC
 
     @property
     def field_5_aux_1(self) -> bytes:
