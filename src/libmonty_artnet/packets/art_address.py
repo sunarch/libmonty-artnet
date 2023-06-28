@@ -7,18 +7,18 @@
 
 from argparse import Namespace
 
-from startnet.packets.base import ArtNetBasePacket
+from libmonty_artnet.packets.base import ArtNetBasePacket
 
 
-class ArtPollReplyPacket(ArtNetBasePacket):
+class ArtAddressPacket(ArtNetBasePacket):
 
-    subcommand = 'poll-reply'
+    subcommand = 'address'
 
     @classmethod
     def create_subparser(cls, add_to_subparsers) -> None:
         parser = add_to_subparsers.add_parser(
             cls.subcommand,
-            help='ArtPollReply'
+            help='ArtAddress'
         )
 
     @staticmethod

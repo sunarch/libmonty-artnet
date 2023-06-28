@@ -15,10 +15,10 @@ import libmonty_logging.helper as logging_helper
 import libmonty_logging.message as logging_message
 
 # imports: project
-from startnet import version
-from startnet.controller import controller
-from startnet.packets.base import ArtNetBasePacket
-import startnet.config.app as app_config
+from libmonty_artnet import version
+from libmonty_artnet.controller import controller
+from libmonty_artnet.packets.base import ArtNetBasePacket
+import libmonty_artnet.config.app as app_config
 
 
 def main() -> None:

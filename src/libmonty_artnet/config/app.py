@@ -13,7 +13,7 @@ import os.path
 from xdg_base_dirs import xdg_config_home
 
 # imports: project
-from startnet import version
+from libmonty_artnet import version
 
 
 config_v1: dict = {}

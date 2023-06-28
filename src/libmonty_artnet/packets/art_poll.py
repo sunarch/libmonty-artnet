@@ -8,11 +8,11 @@
 from argparse import Namespace
 from enum import Enum
 
-from startnet.packets.base import ArtNetBasePacket
-from startnet.protocol import constants
-from startnet.protocol.op_codes import OpPoll
-from startnet.protocol.diag_priority_codes import DiagPriorityCode
-from startnet.utils import common_args, network
+from libmonty_artnet.packets.base import ArtNetBasePacket
+from libmonty_artnet.protocol import constants
+from libmonty_artnet.protocol.op_codes import OpPoll
+from libmonty_artnet.protocol.diag_priority_codes import DiagPriorityCode
+from libmonty_artnet.utils import common_args, network
 
 
 class DiagnosticsMethod(Enum):
