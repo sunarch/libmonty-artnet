@@ -180,7 +180,8 @@ class ArtDmxPacket(ArtNetBasePacket):
 
                 if network_iterator is not None:
                     data = next(network_iterator)
-                    chunked_data = grid.chunk_list(data, chunk_size=constants.RGB_UNITS_PER_UNIVERSE)
+                    chunked_data = grid.chunk_list(data,
+                                                   chunk_size=constants.RGB_UNITS_PER_UNIVERSE)
 
                 for index, data_list in enumerate(chunked_data):
                     universe = args.universe + index
