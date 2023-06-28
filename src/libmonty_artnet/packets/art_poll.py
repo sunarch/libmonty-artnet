@@ -5,6 +5,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+"""
+ArtPoll packet handler
+"""
+
 from argparse import Namespace
 from enum import Enum
 
@@ -16,16 +20,21 @@ from libmonty_artnet.utils import common_args, network
 
 
 class DiagnosticsMethod(Enum):
+    """Diagnostics method enum"""
+
     BROADCAST = 'broadcast'
     UNICAST = 'unicast'
 
 
 class ArtPollPacket(ArtNetBasePacket):
+    """ArtPoll packet"""
 
     subcommand = 'poll'
 
     @classmethod
     def create_subparser(cls, add_to_subparsers) -> None:
+        """Create subparser"""
+
         parser = add_to_subparsers.add_parser(
             cls.subcommand,
             help='ArtPoll'
@@ -36,6 +45,8 @@ class ArtPollPacket(ArtNetBasePacket):
 
     @staticmethod
     def process_args(args: Namespace) -> None:
+        """Process args"""
+
         packet = ArtPollPacket()
         network.udp_send(args.ip, args.port, packet.compose())
 
@@ -52,6 +63,7 @@ class ArtPollPacket(ArtNetBasePacket):
 
                  reply_on_cond_change: bool = False
                  ) -> None:
+        """Init"""
 
         self._targeted_mode = targeted_mode
         self._target_port_bottom = target_port_bottom
@@ -67,61 +79,93 @@ class ArtPollPacket(ArtNetBasePacket):
 
     @property
     def op_code(self) -> int:
+        """Op code"""
+
         return OP_POLL
 
     @property
     def targeted_mode(self) -> bool:
+        """Property: targeted mode"""
+
         return self._targeted_mode
 
     def enable_targeted_mode(self,
                              target_port_bottom: int = constants.PORT_ADDRESS_MIN,
                              target_port_top: int = constants.PORT_ADDRESS_MAX
                              ) -> None:
+        """Enable targeted mode"""
+
         self._targeted_mode = True
         self.target_port_bottom = target_port_bottom
         self.target_port_top = target_port_top
 
     def disable_targeted_mode(self) -> None:
+        """Disable targeted mode"""
+
         self._targeted_mode = False
 
     @property
     def vlc_transmission(self) -> bool:
+        """Property: vlc transmission"""
+
         return self._vlc_transmission
 
     def enable_vlc_transmission(self) -> None:
+        """Enable vlc transmission"""
+
         self._vlc_transmission = True
 
     def disable_vlc_transmission(self) -> None:
+        """Disable vlc transmission"""
+
         self._vlc_transmission = False
 
     @property
     def diagnostics_messages(self) -> bool:
+        """Property: diagnostics messages"""
+
         return self._send_diagnostics
 
     def enable_diagnostics_messages(self) -> None:
+        """Enable diagnostics messages"""
+
         self._send_diagnostics = True
 
     def disable_diagnostics_messages(self) -> None:
+        """Disable diagnostics messages"""
+
         self._send_diagnostics = False
 
     @property
     def diagnostics_method(self) -> DiagnosticsMethod:
+        """Property: diagnostics method"""
+
         return self._diagnostics_method
 
     def diagnostics_method_broadcast(self) -> None:
+        """Diagnostics method: Broadcast"""
+
         self._diagnostics_method = DiagnosticsMethod.BROADCAST
 
     def diagnostics_method_unicast(self) -> None:
+        """Diagnostics method: Unicast"""
+
         self._diagnostics_method = DiagnosticsMethod.UNICAST
 
     @property
     def reply_on_cond_change(self) -> bool:
+        """Property: reply on cond. change"""
+
         return self._reply_on_cond_change
 
     def reply_only_as_response(self) -> None:
+        """Reply only as response"""
+
         self._reply_on_cond_change = False
 
     def reply_on_all_cond_changes(self) -> None:
+        """Reply on all cond. changes"""
+
         self._reply_on_cond_change = True
 
     @property
@@ -181,24 +225,34 @@ class ArtPollPacket(ArtNetBasePacket):
 
     @property
     def diagnostics_priority(self) -> DiagPriorityCode:
+        """Property: diagnostics priority"""
+
         return self._diag_priority
 
     @diagnostics_priority.setter
     def diagnostics_priority(self, new_value: DiagPriorityCode) -> None:
+        """Property setter: diagnostics priority"""
+
         if not isinstance(new_value, DiagPriorityCode):
             raise ValueError('Given value not of type DiagPriorityCode')
         self._diag_priority = new_value
 
     @property
     def field_6_diag_priority(self) -> bytes:
+        """Field 6: diag priority"""
+
         return bytes([self.diagnostics_priority.value])
 
     @property
     def target_port_top(self) -> int:
+        """Property: target port - top"""
+
         return self._target_port_top
 
     @target_port_top.setter
     def target_port_top(self, new_value: int) -> None:
+        """Property setter: target port - top"""
+
         if new_value > constants.PORT_ADDRESS_MAX:
             raise ValueError('Target Port Address Top larger than maximum'
                              f'{new_value} > {constants.PORT_ADDRESS_MAX}')
@@ -206,18 +260,26 @@ class ArtPollPacket(ArtNetBasePacket):
 
     @property
     def field_7_target_port_address_top_hi(self) -> bytes:
+        """Field 7: target port address - top - hi"""
+
         return bytes([self._target_port_top.to_bytes(2, byteorder='big')[0]])
 
     @property
     def field_8_target_port_address_top_lo(self) -> bytes:
+        """Field 8: target port address - top - lo"""
+
         return bytes([self._target_port_top.to_bytes(2, byteorder='big')[1]])
 
     @property
     def target_port_bottom(self) -> int:
+        """Property: target port - bottom"""
+
         return self._target_port_bottom
 
     @target_port_bottom.setter
     def target_port_bottom(self, new_value: int) -> None:
+        """Property setter: target port - bottom"""
+
         if new_value < constants.PORT_ADDRESS_MIN:
             raise ValueError('Target Port Address Top smaller than minimum'
                              f'{new_value} < {constants.PORT_ADDRESS_MIN}')
@@ -225,13 +287,19 @@ class ArtPollPacket(ArtNetBasePacket):
 
     @property
     def field_9_target_port_address_bottom_hi(self) -> bytes:
+        """Field 9: target port address - bottom - hi"""
+
         return bytes([self._target_port_bottom.to_bytes(2, byteorder='big')[0]])
 
     @property
     def field_10_target_port_address_bottom_lo(self) -> bytes:
+        """Field 10: target port address - bottom - lo"""
+
         return bytes([self._target_port_bottom.to_bytes(2, byteorder='big')[1]])
 
     def compose(self) -> bytes:
+        """Compose"""
+
         return \
             self.field_1_id + \
             self.field_2_op_code + \

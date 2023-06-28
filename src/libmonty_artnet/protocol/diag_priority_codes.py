@@ -22,6 +22,7 @@ from enum import Enum
 
 
 class DiagPriorityCode(Enum):
+    """Diag priority codes - enum"""
 
     # NOT IN SPECIFICATION: All messages.
     DpAll = 0x00

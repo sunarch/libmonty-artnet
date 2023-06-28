@@ -5,6 +5,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+"""
+Import all packets
+"""
+
 from libmonty_artnet.packets.art_address import ArtAddressPacket
 from libmonty_artnet.packets.art_command import ArtCommandPacket
 from libmonty_artnet.packets.art_diag_data import ArtDiagDataPacket

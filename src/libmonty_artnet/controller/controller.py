@@ -5,6 +5,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+"""Controller"""
+
 import argparse
 from argparse import ArgumentParser
 import logging
@@ -19,6 +21,8 @@ SUBCOMMAND = 'controller'
 
 
 def create_subparser(add_to_subparsers) -> None:
+    """Create subparser"""
+
     parser = add_to_subparsers.add_parser(
         SUBCOMMAND,
         help='Controller'
@@ -28,6 +32,7 @@ def create_subparser(add_to_subparsers) -> None:
 
 
 def process_args(args: argparse.Namespace) -> None:
+    """Process args"""
 
     if not args.use_experimental:
         logging.error('Experimental feature, its use is disabled by default.')
@@ -39,6 +44,8 @@ def process_args(args: argparse.Namespace) -> None:
 
 
 def _create_cli_parser() -> ArgumentParser:
+    """Create CLI parser"""
+
     parser = ArgumentParser(prog='libmonty Art-Net controller')
 
     parser.add_argument('--quit',
@@ -50,6 +57,7 @@ def _create_cli_parser() -> ArgumentParser:
 
 
 def run():
+    """Run"""
 
     end_loop_cli = Value('b', False)
     end_loop_listener = Value('b', False)
@@ -81,6 +89,8 @@ def run():
 
 
 def terminal_enter_key_callback(root, terminal_listbox, input_field, parser: ArgumentParser):
+    """Terminal enter key callback"""
+
     terminal_text = input_field.get()
     input_field.delete(0, tk.END)
 
@@ -104,6 +114,7 @@ def terminal_enter_key_callback(root, terminal_listbox, input_field, parser: Arg
 
 
 def loop_cli(conn, end_loop):
+    """Loop: CLI"""
 
     parser = _create_cli_parser()
 
@@ -153,6 +164,8 @@ def loop_cli(conn, end_loop):
 
 
 def loop_listener(conn, end_loop: bool):
+    """Loop: listener"""
+
     sock = network.udp_create_listener('127.0.0.1', 0x1936)
 
     while not end_loop:

@@ -5,6 +5,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+"""
+ArtDmx packet handler
+"""
+
 from argparse import Namespace
 import logging
 import time
@@ -18,11 +22,13 @@ from libmonty_artnet.utils import common_args, grid, network
 
 
 class ArtDmxPacket(ArtNetBasePacket):
+    """ArtDmx packet"""
 
     subcommand = 'dmx'
 
     @classmethod
     def create_subparser(cls, add_to_subparsers) -> None:
+        """Create subparser"""
         parser = add_to_subparsers.add_parser(
             cls.subcommand,
             help='ArtDmx'
@@ -89,6 +95,8 @@ class ArtDmxPacket(ArtNetBasePacket):
                           grid_width: int = None,
                           grid_height: int = None
                           ) -> list[int]:
+        """Read display file"""
+
         data = []
         with open(filename, 'r', encoding='UTF-8') as data_file:
             line_no = 0
@@ -150,6 +158,7 @@ class ArtDmxPacket(ArtNetBasePacket):
 
     @classmethod
     def process_args(cls, args: Namespace) -> None:
+        """Process args"""
 
         data = [0]
         if args.data is not None:
@@ -190,6 +199,7 @@ class ArtDmxPacket(ArtNetBasePacket):
                  physical: int = 0,
                  universe: int = 0
                  ) -> None:
+        """Init"""
 
         self._sequence = sequence
         self._physical = physical
@@ -205,41 +215,61 @@ class ArtDmxPacket(ArtNetBasePacket):
 
     @property
     def op_code(self) -> int:
+        """Op code"""
+
         return OP_OUTPUT
 
     @property
     def field_5_sequence(self) -> bytes:
+        """Field 5: sequence"""
+
         return bytes([self._sequence])
 
     @property
     def field_6_physical(self) -> bytes:
+        """Field 6: physical"""
+
         return bytes([self._physical])
 
     @property
     def field_7_sub_uni(self) -> bytes:
+        """Field 7: Sub-Uni"""
+
         return bytes([self._universe.to_bytes(2, byteorder='little')[0]])
 
     @property
     def field_8_net(self) -> bytes:
+        """Field 8: Net"""
+
         return bytes([self._universe.to_bytes(2, byteorder='little')[1]])
 
     @property
     def length(self) -> int:
+        """Length"""
+
         return len(self._data)
 
     @property
     def field_9_length_hi(self) -> bytes:
+        """Field 9: length - hi"""
+
         return bytes([self.length.to_bytes(2, byteorder='big')[0]])
 
     @property
     def field_10_length(self) -> bytes:
+        """Field 10: length"""
+
         return bytes([self.length.to_bytes(2, byteorder='big')[1]])
 
     @property
     def field_11_data(self) -> bytes:
+        """Field 11: data"""
+
         return bytes(self._data)
 
     def compose(self) -> bytes:
+        """Compose"""
+
         return \
             self.field_1_id + \
             self.field_2_op_code + \

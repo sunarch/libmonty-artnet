@@ -5,17 +5,24 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+"""
+ArtDiagData packet handler
+"""
+
 from argparse import Namespace
 
 from libmonty_artnet.packets.base import ArtNetBasePacket
 
 
 class ArtDiagDataPacket(ArtNetBasePacket):
+    """ArtDiagData packet"""
 
     subcommand = 'diag-data'
 
     @classmethod
     def create_subparser(cls, add_to_subparsers) -> None:
+        """Create subparser"""
+
         parser = add_to_subparsers.add_parser(
             cls.subcommand,
             help='ArtDiagData'
@@ -23,11 +30,17 @@ class ArtDiagDataPacket(ArtNetBasePacket):
 
     @staticmethod
     def process_args(args: Namespace) -> None:
+        """Process args"""
+
         raise NotImplementedError
 
     @property
     def op_code(self) -> int:
+        """Op code"""
+
         raise NotImplementedError
 
     def compose(self) -> bytes:
+        """Compose"""
+
         raise NotImplementedError

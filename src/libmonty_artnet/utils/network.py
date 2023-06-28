@@ -5,6 +5,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+"""
+Network functionality
+"""
+
 import logging
 import socket
 from typing import Generator
@@ -19,6 +23,7 @@ def udp_send(ip_address: str,
              payload: bytes,
              enable_broadcast: bool = True
              ) -> None:
+    """UPD send"""
 
     logging.info('Sending to IP "%s" PORT "%s"', ip_address, port)
     logging.info('|-> Payload size: %s', len(payload))
@@ -35,6 +40,8 @@ def udp_send(ip_address: str,
 def udp_create_listener(ip_address: str,
                         port: int
                         ) -> socket.socket:
+    """UDP create listener"""
+
     logging.info('UDP binding: IP "%s" PORT "%s"', ip_address, port)
 
     sock = socket.socket(socket.AF_INET,  # internet
@@ -47,6 +54,7 @@ def udp_create_listener(ip_address: str,
 def udp_receive(sock: socket.socket,
                 buffer_size: int = 1024
                 ) -> tuple[bytes, str]:
+    """UDP receive"""
 
     data, addr = sock.recvfrom(buffer_size)
 
@@ -58,6 +66,7 @@ def udp_receive(sock: socket.socket,
 def tcp_receive(ip_address: str = '127.0.0.1',
                 port: int = 9000
                 ) -> Generator:
+    """TCP receive"""
 
     with socket.socket(
         socket.AF_INET,  # IPv4

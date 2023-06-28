@@ -5,6 +5,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+"""
+ArtSync packet handler
+"""
+
 from argparse import Namespace
 import time
 
@@ -15,11 +19,14 @@ from libmonty_artnet.utils import common_args, network
 
 
 class ArtSyncPacket(ArtNetBasePacket):
+    """ArtSync packet"""
 
     subcommand = 'sync'
 
     @classmethod
     def create_subparser(cls, add_to_subparsers) -> None:
+        """Create subparser"""
+
         parser = add_to_subparsers.add_parser(
             cls.subcommand,
             help='ArtSync'
@@ -31,6 +38,8 @@ class ArtSyncPacket(ArtNetBasePacket):
 
     @staticmethod
     def process_args(args: Namespace) -> None:
+        """Process args"""
+
         packet = ArtSyncPacket()
 
         while True:
@@ -46,17 +55,25 @@ class ArtSyncPacket(ArtNetBasePacket):
 
     @property
     def op_code(self) -> int:
+        """Op code"""
+
         return OP_SYNC
 
     @property
     def field_5_aux_1(self) -> bytes:
+        """Field 5: Aux 1"""
+
         return b'\0'
 
     @property
     def field_6_aux_2(self) -> bytes:
+        """Field 6: Aux 2"""
+
         return b'\0'
 
     def compose(self) -> bytes:
+        """Compose"""
+
         return \
             self.field_1_id + \
             self.field_2_op_code + \

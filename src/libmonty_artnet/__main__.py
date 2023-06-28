@@ -5,6 +5,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+"""
+Main module
+"""
+
 # imports: library
 from argparse import ArgumentParser
 import logging
@@ -22,6 +26,7 @@ import libmonty_artnet.config.app as app_config
 
 
 def main() -> None:
+    """Main entry point"""
 
     logging_helper.apply_config(version.PROGRAM_NAME,
                                 version.__version__,
@@ -70,5 +75,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-
-# -------------------------------------------------------------------- #
