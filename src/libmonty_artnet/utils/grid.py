@@ -12,5 +12,5 @@ def chunk_list(source: list,
     if len(source) > chunk_size:
         return [source[0:chunk_size]] + \
                chunk_list(source[chunk_size:], chunk_size=chunk_size)
-    else:
-        return [source]
+
+    return [source]
