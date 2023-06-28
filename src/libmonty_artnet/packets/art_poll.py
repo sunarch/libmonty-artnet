@@ -59,7 +59,7 @@ class ArtPollPacket(ArtNetBasePacket):
 
                  send_diagnostics: bool = False,
                  diagnostics_method: DiagnosticsMethod = DiagnosticsMethod.BROADCAST,
-                 diag_priority: DiagPriorityCode = DiagPriorityCode.DpLow,
+                 diag_priority: DiagPriorityCode = DiagPriorityCode.DP_LOW,
 
                  reply_on_cond_change: bool = False
                  ) -> None:

@@ -25,19 +25,19 @@ class DiagPriorityCode(Enum):
     """Diag priority codes - enum"""
 
     # NOT IN SPECIFICATION: All messages.
-    DpAll = 0x00
+    DP_ALL: int = 0x00
 
     # Low priority message.
-    DpLow = 0x10
+    DP_LOW: int = 0x10
 
     # Medium priority message.
-    DpMed = 0x40
+    DP_MED: int = 0x40
 
     # High priority message.
-    DpHigh = 0x80
+    DP_HIGH: int = 0x80
 
     # Critical priority message.
-    DpCritical = 0xe0
+    DP_CRITICAL: int = 0xe0
 
     # Volatile message.
-    DpVolatile = 0xf0
+    DP_VOLATILE: int = 0xf0
