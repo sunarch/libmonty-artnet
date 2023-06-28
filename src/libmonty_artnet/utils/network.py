@@ -79,9 +79,10 @@ def tcp_receive(ip_address: str = '127.0.0.1',
         while True:
             logging.info('Waiting for connection')
             connection, client = tcp_socket.accept()
+            client_ip, client_port = client
 
             try:
-                logging.info('Connected to client IP:', client)
+                logging.info('Connected to client IP: %s:%s', client_ip, client_port)
 
                 while True:
                     data = connection.recv(1024)
