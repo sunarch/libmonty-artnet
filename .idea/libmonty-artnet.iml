@@ -8,6 +8,7 @@
       <excludeFolder url="file://$MODULE_DIR$/venv" />
       <excludeFolder url="file://$MODULE_DIR$/z-display-grids" />
       <excludeFolder url="file://$MODULE_DIR$/z-oem-codes" />
+      <excludeFolder url="file://$MODULE_DIR$/src/libmonty_artnet.egg-info" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.11 (libmonty-artnet)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
